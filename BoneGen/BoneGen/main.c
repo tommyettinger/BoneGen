@@ -43,21 +43,21 @@ int submain(int argc, char **argv)
    unsigned char r = 0;
    unsigned char g = 0;
    unsigned char b = 0;
-   fprintf(writer, "'h_tiles': [");
+   fprintf(writer, "\"h_tiles\": [");
    for (int i = 0; i < ts.num_h_tiles; i++)
    {
 	   int idx = 0;
 	   fprintf(writer, "{\n");
-	   fprintf(writer, "'a_constraint': %d,\n", (*ts.h_tiles[i]).a);
-	   fprintf(writer, "'b_constraint': %d,\n", (*ts.h_tiles[i]).b);
-	   fprintf(writer, "'c_constraint': %d,\n", (*ts.h_tiles[i]).c);
-	   fprintf(writer, "'d_constraint': %d,\n", (*ts.h_tiles[i]).d);
-	   fprintf(writer, "'e_constraint': %d,\n", (*ts.h_tiles[i]).e);
-	   fprintf(writer, "'f_constraint': %d,\n", (*ts.h_tiles[i]).f);
-	   fprintf(writer, "'data': [\n");
+	   fprintf(writer, "\"a_constraint\": %d,\n", (*ts.h_tiles[i]).a);
+	   fprintf(writer, "\"b_constraint\": %d,\n", (*ts.h_tiles[i]).b);
+	   fprintf(writer, "\"c_constraint\": %d,\n", (*ts.h_tiles[i]).c);
+	   fprintf(writer, "\"d_constraint\": %d,\n", (*ts.h_tiles[i]).d);
+	   fprintf(writer, "\"e_constraint\": %d,\n", (*ts.h_tiles[i]).e);
+	   fprintf(writer, "\"f_constraint\": %d,\n", (*ts.h_tiles[i]).f);
+	   fprintf(writer, "\"data\": [\n");
 	   for (int y = 0; y < ts.short_side_len; y++)
 	   {
-		   fprintf(writer, "'");
+		   fprintf(writer, "\"");
 		   for (int x = 0; x < ts.short_side_len * 2; x++)
 		   {
 			   r = (*ts.h_tiles[i]).pixels[idx++];
@@ -73,9 +73,9 @@ int submain(int argc, char **argv)
 			   }
 		   }
 		   if (y == ts.short_side_len - 1)
-			   fprintf(writer, "']}\n");
+			   fprintf(writer, "\"]}\n");
 		   else
-			   fprintf(writer, "',\n");
+			   fprintf(writer, "\",\n");
 	   }
 	   if (i == ts.num_h_tiles - 1)
 	   {
@@ -87,21 +87,21 @@ int submain(int argc, char **argv)
 	   }
    }
 
-   fprintf(writer, "'v_tiles': [");
+   fprintf(writer, "\"v_tiles\": [");
    for (int i = 0; i < ts.num_v_tiles; i++)
    {
 	   int idx = 0;
 	   fprintf(writer, "{\n");
-	   fprintf(writer, "'a_constraint': %d,\n", (*ts.v_tiles[i]).a);
-	   fprintf(writer, "'b_constraint': %d,\n", (*ts.v_tiles[i]).b);
-	   fprintf(writer, "'c_constraint': %d,\n", (*ts.v_tiles[i]).c);
-	   fprintf(writer, "'d_constraint': %d,\n", (*ts.v_tiles[i]).d);
-	   fprintf(writer, "'e_constraint': %d,\n", (*ts.v_tiles[i]).e);
-	   fprintf(writer, "'f_constraint': %d,\n", (*ts.v_tiles[i]).f);
-	   fprintf(writer, "'data': [\n");
+	   fprintf(writer, "\"a_constraint\": %d,\n", (*ts.v_tiles[i]).a);
+	   fprintf(writer, "\"b_constraint\": %d,\n", (*ts.v_tiles[i]).b);
+	   fprintf(writer, "\"c_constraint\": %d,\n", (*ts.v_tiles[i]).c);
+	   fprintf(writer, "\"d_constraint\": %d,\n", (*ts.v_tiles[i]).d);
+	   fprintf(writer, "\"e_constraint\": %d,\n", (*ts.v_tiles[i]).e);
+	   fprintf(writer, "\"f_constraint\": %d,\n", (*ts.v_tiles[i]).f);
+	   fprintf(writer, "\"data\": [\n");
 	   for (int y = 0; y < ts.short_side_len * 2; y++)
 	   {
-		   fprintf(writer, "'");
+		   fprintf(writer, "\"");
 		   for (int x = 0; x < ts.short_side_len; x++)
 		   {
 			   r = (*ts.v_tiles[i]).pixels[idx++];
@@ -117,9 +117,9 @@ int submain(int argc, char **argv)
 			   }
 		   }
 		   if (y == ts.short_side_len * 2 - 1)
-			   fprintf(writer, "']}\n");
+			   fprintf(writer, "\"]}\n");
 		   else
-			   fprintf(writer, "',\n");
+			   fprintf(writer, "\",\n");
 	   }
 	   if (i == ts.num_v_tiles - 1)
 	   {
@@ -150,47 +150,47 @@ int submain(int argc, char **argv)
 int main(int argc, char **argv)
 {
 	char* names[] = {
-		"herringbone\\template_caves_limit_connectivity.png",
-		"herringbone\\template_caves_limit_connectivity.png",
-		"herringbone\\template_caves_tiny_corridors.png",
-		"herringbone\\template_corner_caves.png",
-		"herringbone\\template_horizontal_corridors_v1.png",
-		"herringbone\\template_horizontal_corridors_v2.png",
-		"herringbone\\template_horizontal_corridors_v3.png",
-		"herringbone\\template_limit_connectivity_fat.png",
-		"herringbone\\template_limited_connectivity.png",
-		"herringbone\\template_maze_2_wide.png",
-		"herringbone\\template_maze_plus_2_wide.png",
-		"herringbone\\template_open_areas.png",
-		"herringbone\\template_ref2_corner_caves.png",
-		"herringbone\\template_rooms_and_corridors.png",
-		"herringbone\\template_rooms_and_corridors_2_wide_diagonal_bias.png",
-		"herringbone\\template_rooms_limit_connectivity.png",
-		"herringbone\\template_round_rooms_diagonal_corridors.png",
-		"herringbone\\template_sean_dungeon.png",
-		"herringbone\\template_simple_caves_2_wide.png",
-		"herringbone\\template_square_rooms_with_random_rects.png" };
+		"herringbone/template_caves_limit_connectivity.png",
+		"herringbone/template_caves_limit_connectivity.png",
+		"herringbone/template_caves_tiny_corridors.png",
+		"herringbone/template_corner_caves.png",
+		"herringbone/template_horizontal_corridors_v1.png",
+		"herringbone/template_horizontal_corridors_v2.png",
+		"herringbone/template_horizontal_corridors_v3.png",
+		"herringbone/template_limit_connectivity_fat.png",
+		"herringbone/template_limited_connectivity.png",
+		"herringbone/template_maze_2_wide.png",
+		"herringbone/template_maze_plus_2_wide.png",
+		"herringbone/template_open_areas.png",
+		"herringbone/template_ref2_corner_caves.png",
+		"herringbone/template_rooms_and_corridors.png",
+		"herringbone/template_rooms_and_corridors_2_wide_diagonal_bias.png",
+		"herringbone/template_rooms_limit_connectivity.png",
+		"herringbone/template_round_rooms_diagonal_corridors.png",
+		"herringbone/template_sean_dungeon.png",
+		"herringbone/template_simple_caves_2_wide.png",
+		"herringbone/template_square_rooms_with_random_rects.png" };
 	char* write_names[] = {
-		"caves_limit_connectivity.txt",
-		"caves_limit_connectivity.txt",
-		"caves_tiny_corridors.txt",
-		"corner_caves.txt",
-		"horizontal_corridors_v1.txt",
-		"horizontal_corridors_v2.txt",
-		"horizontal_corridors_v3.txt",
-		"limit_connectivity_fat.txt",
-		"limited_connectivity.txt",
-		"maze_2_wide.txt",
-		"maze_plus_2_wide.txt",
-		"open_areas.txt",
-		"ref2_corner_caves.txt",
-		"rooms_and_corridors.txt",
-		"rooms_and_corridors_2_wide_diagonal_bias.txt",
-		"rooms_limit_connectivity.txt",
-		"round_rooms_diagonal_corridors.txt",
-		"default_dungeon.txt",
-		"simple_caves_2_wide.txt",
-		"square_rooms_with_random_rects.txt"
+		"caves_limit_connectivity.js",
+		"caves_limit_connectivity.js",
+		"caves_tiny_corridors.js",
+		"corner_caves.js",
+		"horizontal_corridors_v1.js",
+		"horizontal_corridors_v2.js",
+		"horizontal_corridors_v3.js",
+		"limit_connectivity_fat.js",
+		"limited_connectivity.js",
+		"maze_2_wide.js",
+		"maze_plus_2_wide.js",
+		"open_areas.js",
+		"ref2_corner_caves.js",
+		"rooms_and_corridors.js",
+		"rooms_and_corridors_2_wide_diagonal_bias.js",
+		"rooms_limit_connectivity.js",
+		"round_rooms_diagonal_corridors.js",
+		"default_dungeon.js",
+		"simple_caves_2_wide.js",
+		"square_rooms_with_random_rects.js"
 	};
 	for (int i = 0; i < 20; i++)
 	{

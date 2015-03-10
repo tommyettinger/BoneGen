@@ -907,27 +907,27 @@ STBHW_EXTERN int stbhw_build_tileset_from_image(stbhw_tileset *ts, unsigned char
       return 0;
    if (c.num_color[0] > 32 || c.num_color[1] > 32 || c.num_color[2] > 32 || c.num_color[3] > 32)
 	   return 0;
-   fprintf(writer, "'c': {\n");
+   fprintf(writer, "\"config\": {\n");
    if (c.is_corner)
    {
-	   fprintf(writer, "'is_corner': true,\n");
+	   fprintf(writer, "\"is_corner\": true,\n");
 	   for (int idx = 0; idx < 4; idx++)
 	   {
-		   fprintf(writer, "'num_color_%d': %d,\n", idx, c.num_color[idx]);
+		   fprintf(writer, "\"num_color_%d\": %d,\n", idx, c.num_color[idx]);
 	   }
    }
    else
    {
-	   fprintf(writer, "'is_corner': false,\n");
+	   fprintf(writer, "\"is_corner\": false,\n");
 	   for (int idx = 0; idx < 6; idx++)
 	   {
-		   fprintf(writer, "'num_color_%d': %d,\n", idx, c.num_color[idx]);
+		   fprintf(writer, "\"num_color_%d\": %d,\n", idx, c.num_color[idx]);
 	   }
    }
-   fprintf(writer, "'num_x_variants': %d,\n", c.num_vary_x);
-   fprintf(writer, "'num_y_variants': %d,\n", c.num_vary_y);
-   fprintf(writer, "'short_side_length': %d,\n", c.short_side_len);
-   fprintf(writer, "}\n");
+   fprintf(writer, "\"num_x_variants\": %d,\n", c.num_vary_x);
+   fprintf(writer, "\"num_y_variants\": %d,\n", c.num_vary_y);
+   fprintf(writer, "\"short_side_length\": %d,\n", c.short_side_len);
+   fprintf(writer, "},\n");
    stbhw__get_template_info(&c, NULL, NULL, &h_count, &v_count);
 
    ts->is_corner = c.is_corner;
@@ -936,10 +936,10 @@ STBHW_EXTERN int stbhw_build_tileset_from_image(stbhw_tileset *ts, unsigned char
 
    ts->max_h_tiles = h_count;
    ts->max_v_tiles = v_count;
-   fprintf(writer, "'max_tiles': {\n");
-   fprintf(writer, "'h': %d\n", h_count);
-   fprintf(writer, "'v': %d\n", v_count);
-   fprintf(writer, "}\n");
+   fprintf(writer, "\"max_tiles\": {\n");
+   fprintf(writer, "\"h\": %d,\n", h_count);
+   fprintf(writer, "\"v\": %d\n", v_count);
+   fprintf(writer, "},\n");
 
    ts->num_h_tiles = ts->num_v_tiles = 0;
 
