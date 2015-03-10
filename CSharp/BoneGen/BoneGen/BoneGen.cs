@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace BoneGen
 {
+    /// <summary>
+    /// Passed to BoneGen.Generate() to select a style of dungeon.
+    /// </summary>
     public enum TilesetType
     {
         DEFAULT_DUNGEON = 0,
@@ -31,6 +33,9 @@ namespace BoneGen
         SIMPLE_CAVES,
         SQUARE_ROOMS_WITH_RANDOM_RECTS
     }
+    /// <summary>
+    /// Part of the JSON that defines a tileset.
+    /// </summary>
     public class Config
     {
         public bool is_corner;
@@ -47,15 +52,21 @@ namespace BoneGen
             num_y_variants = 1;
         }
     }
-    public class Maxiumums
+    /// <summary>
+    /// Part of the JSON that defines a tileset.
+    /// </summary>
+    public class Maximums
     {
         public int h, v;
-        public Maxiumums()
+        public Maximums()
         {
             h = 64;
             v = 64;
         }
     }
+    /// <summary>
+    /// Part of the JSON that defines a tileset.
+    /// </summary>
     public class Tile
     {
         public int a_constraint, b_constraint, c_constraint, d_constraint, e_constraint, f_constraint;
@@ -71,24 +82,35 @@ namespace BoneGen
             data = new string[] {};
         }
     }
+    /// <summary>
+    /// The outermost class in the JSON that defines a tileset.
+    /// </summary>
     public class Tileset
     {
         public Config config;
-        public Maxiumums max_tiles;
+        public Maximums max_tiles;
         public Tile[] h_tiles, v_tiles;
         public Tileset()
         {
             config = new Config();
-            max_tiles = new Maxiumums();
+            max_tiles = new Maximums();
             h_tiles = new Tile[] { };
             v_tiles = new Tile[] { };
         }
     }
+    /// <summary>
+    /// Contains methods for generating dungeons and caves
+    /// with Sean T. Barrett's Herringbone Wang Tile dungeon
+    /// generation algorithm.
+    /// </summary>
     public class BoneGen
     {
+        /// <summary>
+        /// Can be set in the constructor or later; probably only relevant if you use a seeded RNG.
+        /// </summary>
         public Random R;
         private Stream[] jsonStreams;
-        Tile ChooseTile(Tile[] list, int numlist, ref int[,] ccolor, int[] y_positions, int[] x_positions)
+        private Tile ChooseTile(Tile[] list, int numlist, ref int[,] ccolor, int[] y_positions, int[] x_positions)
         {
             int a = ccolor[y_positions[0], x_positions[0]];
             int b = ccolor[y_positions[1], x_positions[1]];
@@ -137,7 +159,7 @@ namespace BoneGen
             }
             throw new Exception("Could not find a matching tile");
         }
-        Tile ChooseTile(Tile[] list, int numlist, ref int[,] vcolor, ref int[,] hcolor, bool upright, int[] y_positions, int[] x_positions)
+        private Tile ChooseTile(Tile[] list, int numlist, ref int[,] vcolor, ref int[,] hcolor, bool upright, int[] y_positions, int[] x_positions)
         {
             int a, b, c, d, e, f;
             if (upright)
@@ -211,12 +233,25 @@ namespace BoneGen
             }
             throw new Exception("Could not find a matching tile");
         }
+        /// <summary>
+        /// The main way of generating dungeons with BoneGen. Consider using BoneGen.WallWrap
+        /// (a static method) to surround the edges with walls.
+        /// </summary>
+        /// <param name="tt">A TilesetType enum; try lots of these out to see how they look.</param>
+        /// <param name="h">Height of the dungeon to generate in chars.</param>
+        /// <param name="w">Width of the dungeon to generate in chars.</param>
+        /// <returns>A row-major char[,] with h rows and w columns; it will be filled with '#' for walls and '.' for floors.</returns>
         public char[,] Generate(TilesetType tt, int h, int w)
         {
             Tileset ts = JsonConvert.DeserializeObject<Tileset>(new StreamReader(jsonStreams[(int)tt]).ReadToEnd());
 
             return Generate(ts, h, w);
         }
+        /// <summary>
+        /// Changes the outer edge of a char[,] to the wall char, '#'.
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
         public static char[,] WallWrap(char[,] map)
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -242,6 +277,15 @@ namespace BoneGen
             int offset = 1 + R.Next(num_options - 1);
             return (old_color + offset) % num_options;
         }
+        /// <summary>
+        /// If you have your own Tileset gained by parsing your own JSON, use
+        /// this to generate a dungeon using it. Consider using BoneGen.WallWrap
+        /// (a static method) to surround the edges with walls.
+        /// </summary>
+        /// <param name="ts">A Tileset; if you don't have one of these available, use a TilesetType enum instead to select a predefined one.</param>
+        /// <param name="h">Height of the dungeon to generate in chars.</param>
+        /// <param name="w">Width of the dungeon to generate in chars.</param>
+        /// <returns>A row-major char[,] with h rows and w columns; it will be filled with '#' for walls and '.' for floors.</returns>
         public char[,] Generate(Tileset ts, int h, int w)
         {
             char[,] output = new char[h, w];
@@ -419,11 +463,17 @@ namespace BoneGen
             }
             return output;
         }
+        /// <summary>
+        /// Constructs a BoneGen that uses the default RNG.
+        /// </summary>
         public BoneGen() : this(new Random())
         {
         }
-        
 
+        /// <summary>
+        /// Constructs a BoneGen with the given RNG.
+        /// </summary>
+        /// <param name="r"></param>
         public BoneGen(Random r)
         {
             R = r;
@@ -451,10 +501,11 @@ namespace BoneGen
                                    };
             
         }
+        /*
         public static void Main(string[] args)
         {
             BoneGen bg = new BoneGen();
-            char[,] dungeon = WallWrap(bg.Generate(TilesetType.ROUND_ROOMS_DIAGONAL_CORRIDORS, 200, 80));
+            char[,] dungeon = WallWrap(bg.Generate(TilesetType.DEFAULT_DUNGEON, 80, 80));
             for (int y = 0; y < dungeon.GetLength(0); y++)
             {
                 for (int x = 0; x < dungeon.GetLength(1); x++)
@@ -465,5 +516,6 @@ namespace BoneGen
             }
             Console.Read();
         }
+         */
     }
 }
