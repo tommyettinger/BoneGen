@@ -9,6 +9,28 @@ using Newtonsoft.Json;
 
 namespace BoneGen
 {
+    public enum TilesetType
+    {
+        DEFAULT_DUNGEON = 0,
+        CAVES_LIMIT_CONNECTIVITY,
+        CAVES_TINY_CORRIDORS,
+        CORNER_CAVES,
+        HORIZONTAL_CORRIDORS_A,
+        HORIZONTAL_CORRIDORS_B,
+        HORIZONTAL_CORRIDORS_C,
+        LIMIT_CONNECTIVITY_FAT,
+        LIMITED_CONNECTIVITY,
+        MAZE_A,
+        MAZE_B,
+        OPEN_AREAS,
+        REFERENCE_CAVES,
+        ROOMS_AND_CORRIDORS_A,
+        ROOMS_AND_CORRIDORS_B,
+        ROOMS_LIMIT_CONNECTIVITY,
+        ROUND_ROOMS_DIAGONAL_CORRIDORS,
+        SIMPLE_CAVES,
+        SQUARE_ROOMS_WITH_RANDOM_RECTS
+    }
     public class Config
     {
         public bool is_corner;
@@ -64,12 +86,350 @@ namespace BoneGen
     }
     public class BoneGen
     {
-        //public BoneGen()
-        public static void Main(string[] args)
+        public Random R;
+        private Stream[] jsonStreams;
+        Tile ChooseTile(Tile[] list, int numlist, ref int[,] ccolor, int[] y_positions, int[] x_positions)
         {
+            int a = ccolor[y_positions[0], x_positions[0]];
+            int b = ccolor[y_positions[1], x_positions[1]];
+            int c = ccolor[y_positions[2], x_positions[2]];
+            int d = ccolor[y_positions[3], x_positions[3]];
+            int e = ccolor[y_positions[4], x_positions[4]];
+            int f = ccolor[y_positions[5], x_positions[5]];
+            int i, n, match = int.MaxValue, pass;
+            for (pass = 0; pass < 2; ++pass)
+            {
+                n = 0;
+                // pass #1:
+                //   count number of variants that match this partial set of constraints
+                // pass #2:
+                //   stop on randomly selected match
+                for (i = 0; i < numlist; ++i)
+                {
+                    Tile tile = list[i];
+                    if ((a < 0 || a == tile.a_constraint) &&
+                        (b < 0 || b == tile.b_constraint) &&
+                        (c < 0 || c == tile.c_constraint) &&
+                        (d < 0 || d == tile.d_constraint) &&
+                        (e < 0 || e == tile.e_constraint) &&
+                        (f < 0 || f == tile.f_constraint))
+                    {
+                        n += 1;
+                        if (n > match)
+                        {
+                            // use list[i]
+                            // update constraints to reflect what we placed
+                            ccolor[y_positions[0], x_positions[0]] = tile.a_constraint;
+                            ccolor[y_positions[1], x_positions[1]] = tile.b_constraint;
+                            ccolor[y_positions[2], x_positions[2]] = tile.c_constraint;
+                            ccolor[y_positions[3], x_positions[3]] = tile.d_constraint;
+                            ccolor[y_positions[4], x_positions[4]] = tile.e_constraint;
+                            ccolor[y_positions[5], x_positions[5]] = tile.f_constraint;
+                            return tile;
+                        }
+                    }
+                }
+                if (n == 0)
+                {
+                    throw new Exception("Could not find a matching tile");
+                }
+                match = R.Next(n);
+            }
+            throw new Exception("Could not find a matching tile");
+        }
+        Tile ChooseTile(Tile[] list, int numlist, ref int[,] vcolor, ref int[,] hcolor, bool upright, int[] y_positions, int[] x_positions)
+        {
+            int a, b, c, d, e, f;
+            if (upright)
+            {
+                a = hcolor[y_positions[0], x_positions[0]];
+                b = vcolor[y_positions[1], x_positions[1]];
+                c = vcolor[y_positions[2], x_positions[2]];
+                d = vcolor[y_positions[3], x_positions[3]];
+                e = vcolor[y_positions[4], x_positions[4]];
+                f = hcolor[y_positions[5], x_positions[5]];
+            }
+            else
+            {
+                a = hcolor[y_positions[0], x_positions[0]];
+                b = hcolor[y_positions[1], x_positions[1]];
+                c = vcolor[y_positions[2], x_positions[2]];
+                d = vcolor[y_positions[3], x_positions[3]];
+                e = hcolor[y_positions[4], x_positions[4]];
+                f = hcolor[y_positions[5], x_positions[5]];
+            }
+            int i, n, match = int.MaxValue, pass;
+            for (pass = 0; pass < 2; ++pass)
+            {
+                n = 0;
+                // pass #1:
+                //   count number of variants that match this partial set of constraints
+                // pass #2:
+                //   stop on randomly selected match
+                for (i = 0; i < numlist; ++i)
+                {
+                    Tile tile = list[i];
+                    if ((a < 0 || a == tile.a_constraint) &&
+                        (b < 0 || b == tile.b_constraint) &&
+                        (c < 0 || c == tile.c_constraint) &&
+                        (d < 0 || d == tile.d_constraint) &&
+                        (e < 0 || e == tile.e_constraint) &&
+                        (f < 0 || f == tile.f_constraint))
+                    {
+                        n += 1;
+                        if (n > match)
+                        {
+                            // use list[i]
+                            // update constraints to reflect what we placed
+                            if (upright)
+                            {
+                                hcolor[y_positions[0], x_positions[0]] = tile.a_constraint;
+                                vcolor[y_positions[1], x_positions[1]] = tile.b_constraint;
+                                vcolor[y_positions[2], x_positions[2]] = tile.c_constraint;
+                                vcolor[y_positions[3], x_positions[3]] = tile.d_constraint;
+                                vcolor[y_positions[4], x_positions[4]] = tile.e_constraint;
+                                hcolor[y_positions[5], x_positions[5]] = tile.f_constraint;
+                            }
+                            else
+                            {
+                                hcolor[y_positions[0], x_positions[0]] = tile.a_constraint;
+                                hcolor[y_positions[1], x_positions[1]] = tile.b_constraint;
+                                vcolor[y_positions[2], x_positions[2]] = tile.c_constraint;
+                                vcolor[y_positions[3], x_positions[3]] = tile.d_constraint;
+                                hcolor[y_positions[4], x_positions[4]] = tile.e_constraint;
+                                hcolor[y_positions[5], x_positions[5]] = tile.f_constraint;
+                            }
+                            return tile;
+                        }
+                    }
+                }
+                if (n == 0)
+                {
+                    throw new Exception("Could not find a matching tile");
+                }
+                match = R.Next(n);
+            }
+            throw new Exception("Could not find a matching tile");
+        }
+        public char[,] Generate(TilesetType tt, int h, int w)
+        {
+            Tileset ts = JsonConvert.DeserializeObject<Tileset>(new StreamReader(jsonStreams[(int)tt]).ReadToEnd());
+
+            return Generate(ts, h, w);
+        }
+        public static char[,] WallWrap(char[,] map)
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                map[i, 0] = '#';
+                map[i, map.GetUpperBound(1)] = '#';
+            }
+            for (int i = 0; i < map.GetLength(1); i++)
+            {
+                map[0, i] = '#';
+                map[map.GetUpperBound(0), i] = '#';
+            }
+            return map;
+        }
+
+        private bool stbhw__match(int[,] ccolor, int y, int x)
+        {
+            return ccolor[y, x] == ccolor[y + 1, x + 1];
+        }
+        private int stbhw__change_color(int old_color, int num_options)
+        {
+
+            int offset = 1 + R.Next(num_options - 1);
+            return (old_color + offset) % num_options;
+        }
+        public char[,] Generate(Tileset ts, int h, int w)
+        {
+            char[,] output = new char[h, w];
+            int sidelen = ts.config.short_side_length;
+            int xmax = (w / sidelen) + 6;
+            int ymax = (h / sidelen) + 6;
+            if (xmax > 1006)
+            {
+                throw new ArgumentOutOfRangeException("w", "Width too large!");
+            }
+            if (ymax > 1006)
+            {
+                throw new ArgumentOutOfRangeException("h", "Height too large!");
+            }
+            if (ts.config.is_corner)
+            {
+
+                int[,] c_color = new int[ymax, xmax];
+                int i = 0, j = 0, ypos = -1 * sidelen;
+                int[] cc = new int[] { ts.config.num_color_0, ts.config.num_color_1, ts.config.num_color_2, ts.config.num_color_3 };
+
+                for (j = 0; j < ymax; ++j)
+                {
+                    for (i = 0; i < xmax; ++i)
+                    {
+                        int p = (i - j + 1) & 3; // corner type
+                        c_color[j, i] = R.Next(cc[p]);
+                    }
+                }
+
+               // Repetition reduction
+               // now go back through and make sure we don't have adjacent 3x2 vertices that are identical,
+               // to avoid really obvious repetition (which happens easily with extreme weights)
+               for (j=0; j < ymax-3; ++j) {
+                  for (i=0; i < xmax-3; ++i) {
+                      int p = (i - j + 1) & 3; // corner type
+                      if (i + 3 >= 1006) { throw new Exception("Internal failure (on x) trying to reduce repetition"); };
+                      if (j + 3 >= 1006) { throw new Exception("Internal failure (on y) trying to reduce repetition"); };
+                      if (stbhw__match(c_color, j, i) && stbhw__match(c_color, j + 1, i) && stbhw__match(c_color, j + 2, i)
+                         && stbhw__match(c_color, j, i + 1) && stbhw__match(c_color, j+1, i+1) && stbhw__match(c_color, j+2, i+1)){
+                        p = ((i+1)-(j+1)+1) & 3;
+                        if (cc[p] > 1)
+                            c_color[j + 1, i + 1] = stbhw__change_color(c_color[j + 1, i + 1], cc[p]);
+                     }
+//                     if (stbhw__match(i,j) && stbhw__match(i+1,j) && stbhw__match(i+2,j)
+//                         && stbhw__match(i,j+1) && stbhw__match(i+1,j+1) && stbhw__match(i+2,j+1)) {
+
+                      if (stbhw__match(c_color, j, i) && stbhw__match(c_color, j, i+1) && stbhw__match(c_color, j, i+2)
+                         && stbhw__match(c_color, j+1, i) && stbhw__match(c_color, j + 1, i + 1) && stbhw__match(c_color, j + 1, i + 2))
+                      {
+                        p = ((i+2)-(j+1)+1) & 3;
+                        if (cc[p] > 1)
+                           c_color[j+1,i+2] = stbhw__change_color(c_color[j+1,i+2], cc[p]);
+                     }
+                  }
+               }
+                 
+
+                for (j = -1; ypos < h; ++j)
+                {
+                    // a general herringbone row consists of:
+                    //    horizontal left block, the bottom of a previous vertical, the top of a new vertical
+                    int phase = (j & 3);
+                    // displace horizontally according to pattern
+                    if (phase == 0)
+                    {
+                        i = 0;
+                    }
+                    else
+                    {
+                        i = phase - 4;
+                    }
+                    for (; ; i += 4)
+                    {
+                        int xpos = i * sidelen;
+                        if (xpos >= w)
+                            break;
+                        // horizontal left-block
+                        if (xpos + sidelen * 2 >= 0 && ypos >= 0)
+                        {
+                            Tile t = ChooseTile(
+                               ts.h_tiles, ts.h_tiles.Length, ref c_color,
+                               new int[] { j + 2, j + 2, j + 2, j + 3, j + 3, j + 3 },
+                               new int[] { i + 2, i + 3, i + 4, i + 2, i + 3, i + 4 });
+
+                            if (t == null)
+                                throw new Exception("Failed to generate a map.");
+
+                            output.Insert(t.data, ypos, xpos);
+                        }
+                        xpos += sidelen * 2;
+                        // now we're at the end of a previous vertical one
+                        xpos += sidelen;
+                        // now we're at the start of a new vertical one
+                        if (xpos < w)
+                        {
+                            Tile t = ChooseTile(
+                              ts.v_tiles, ts.v_tiles.Length, ref c_color,
+                              new int[] { j + 2, j + 3, j + 4, j + 2, j + 3, j + 4 },
+                              new int[] { i + 5, i + 5, i + 5, i + 6, i + 6, i + 6 });
+
+                            if (t == null)
+                                throw new Exception("Failed to generate a map.");
+                            output.Insert(t.data, ypos, xpos);
+                        }
+                    }
+                    ypos += sidelen;
+                }
+            }
+            else
+            {
+                // @TODO edge-color repetition reduction
+                int i = 0, j = -1, ypos;
+                int[,] v_color = new int[ymax, xmax];
+                int[,] h_color = new int[ymax, xmax];
+                for (int yy = 0; yy < ymax; yy++)
+                {
+                    for (int xx = 0; xx < xmax; xx++)
+                    {
+                        v_color[yy, xx] = -1;
+                        h_color[yy, xx] = -1;
+                    }
+                }
+
+                ypos = -1 * sidelen;
+                for (j = -1; ypos < h; ++j)
+                {
+                    // a general herringbone row consists of:
+                    //    horizontal left block, the bottom of a previous vertical, the top of a new vertical
+                    int phase = (j & 3);
+                    // displace horizontally according to pattern
+                    if (phase == 0)
+                    {
+                        i = 0;
+                    }
+                    else
+                    {
+                        i = phase - 4;
+                    }
+                    for (; ; i += 4)
+                    {
+                        int xpos = i * sidelen;
+                        if (xpos >= w)
+                            break;
+                        // horizontal left-block
+                        if (xpos + sidelen * 2 >= 0 && ypos >= 0)
+                        {
+                            Tile t = ChooseTile(
+                               ts.h_tiles, ts.h_tiles.Length, ref v_color, ref h_color, false,
+                               new int[] { j + 2, j + 2, j + 2, j + 2, j + 3, j + 3 },
+                               new int[] { i + 2, i + 3, i + 2, i + 4, i + 2, i + 3 });
+
+                            if (t == null)
+                                throw new Exception("Failed to generate a map.");
+                            output.Insert(t.data, ypos, xpos);
+                        }
+                        xpos += sidelen * 2;
+                        // now we're at the end of a previous vertical one
+                        xpos += sidelen;
+                        // now we're at the start of a new vertical one
+                        if (xpos < w)
+                        {
+                            Tile t = ChooseTile(
+                               ts.v_tiles, ts.v_tiles.Length, ref v_color, ref h_color, true,
+                               new int[] { j + 2, j + 2, j + 2, j + 3, j + 3, j + 4 },
+                               new int[] { i + 5, i + 5, i + 6, i + 5, i + 6, i + 5 });
+
+                            if (t == null)
+                                throw new Exception("Failed to generate a map.");
+                            output.Insert(t.data, ypos, xpos);
+                        }
+                    }
+                    ypos += sidelen;
+                }
+            }
+            return output;
+        }
+        public BoneGen() : this(new Random())
+        {
+        }
+        
+
+        public BoneGen(Random r)
+        {
+            R = r;
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream[] jsonStreams = {
-                                       assembly.GetManifestResourceStream("BoneGen.herringbone.caves_limit_connectivity.js"),
+            jsonStreams = new Stream[] {
+                                       assembly.GetManifestResourceStream("BoneGen.herringbone.default_dungeon.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.caves_limit_connectivity.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.caves_tiny_corridors.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.corner_caves.js"),
@@ -86,14 +446,22 @@ namespace BoneGen
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.rooms_and_corridors_2_wide_diagonal_bias.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.rooms_limit_connectivity.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.round_rooms_diagonal_corridors.js"),
-                                       assembly.GetManifestResourceStream("BoneGen.herringbone.default_dungeon.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.simple_caves_2_wide.js"),
                                        assembly.GetManifestResourceStream("BoneGen.herringbone.square_rooms_with_random_rects.js")
                                    };
-            Tileset test = JsonConvert.DeserializeObject<Tileset>(new StreamReader(jsonStreams[16]).ReadToEnd());
-            foreach (string s in test.h_tiles[0].data)
+            
+        }
+        public static void Main(string[] args)
+        {
+            BoneGen bg = new BoneGen();
+            char[,] dungeon = WallWrap(bg.Generate(TilesetType.ROUND_ROOMS_DIAGONAL_CORRIDORS, 200, 80));
+            for (int y = 0; y < dungeon.GetLength(0); y++)
             {
-                Console.WriteLine(s);
+                for (int x = 0; x < dungeon.GetLength(1); x++)
+                {
+                    Console.Write(dungeon[y, x]);
+                }
+                //                Console.WriteLine();
             }
             Console.Read();
         }
