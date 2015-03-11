@@ -28,7 +28,7 @@ public class Example
 }
 ```
 
-### In C#
+### In CSharp
 It isn't available on NuGet yet, but there's a download available in the Releases section of this project. Usage is similar to Cuttlebone's DungeonGen, but it doesn't store the char[,] for later (yet, that should be a feature soon). BoneGen in C# has one dependency, JSON.NET. An example:
 ```csharp
 using BoneGen;
@@ -55,7 +55,7 @@ namespace MyStuff
 # License
 Released into the public domain with the Unlicense (see LICENSE file in this directory).
 
-### Sample output
+# Sample output
 Using the TilesetType `ROUND_ROOMS_DIAGONAL_CORRIDORS`:
 ```
 ################################################################################
