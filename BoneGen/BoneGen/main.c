@@ -151,7 +151,6 @@ int main(int argc, char **argv)
 {
 	char* names[] = {
 		"herringbone/template_caves_limit_connectivity.png",
-		"herringbone/template_caves_limit_connectivity.png",
 		"herringbone/template_caves_tiny_corridors.png",
 		"herringbone/template_corner_caves.png",
 		"herringbone/template_horizontal_corridors_v1.png",
@@ -172,7 +171,6 @@ int main(int argc, char **argv)
 		"herringbone/template_square_rooms_with_random_rects.png" };
 	char* write_names[] = {
 		"caves_limit_connectivity.js",
-		"caves_limit_connectivity.js",
 		"caves_tiny_corridors.js",
 		"corner_caves.js",
 		"horizontal_corridors_v1.js",
@@ -192,7 +190,7 @@ int main(int argc, char **argv)
 		"simple_caves_2_wide.js",
 		"square_rooms_with_random_rects.js"
 	};
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 19; i++)
 	{
 		writer = fopen(write_names[i], "w");
 		char* av[] = {"mapgen", names[i], "40", "40"};

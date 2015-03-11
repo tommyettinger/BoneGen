@@ -9,7 +9,7 @@
 "num_color_5": 1,
 "num_x_variants": 4,
 "num_y_variants": 4,
-"short_side_length": 12,
+"short_side_length": 12
 },
 "max_tiles": {
 "h": 16,

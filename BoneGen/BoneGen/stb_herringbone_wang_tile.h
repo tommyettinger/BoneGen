@@ -926,7 +926,7 @@ STBHW_EXTERN int stbhw_build_tileset_from_image(stbhw_tileset *ts, unsigned char
    }
    fprintf(writer, "\"num_x_variants\": %d,\n", c.num_vary_x);
    fprintf(writer, "\"num_y_variants\": %d,\n", c.num_vary_y);
-   fprintf(writer, "\"short_side_length\": %d,\n", c.short_side_len);
+   fprintf(writer, "\"short_side_length\": %d\n", c.short_side_len);
    fprintf(writer, "},\n");
    stbhw__get_template_info(&c, NULL, NULL, &h_count, &v_count);
 
