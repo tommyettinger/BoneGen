@@ -5,11 +5,11 @@ The original work done by Sean T. Barrett on [Herringbone Wang Tile dungeon gene
 Here, I modified the STB source to output JSON instead of a bitmap, and used that JSON in a C# loader.
 The plan is to keep porting, using the JSON in similar ways in different languages.
 
-# How to Use
+## How to Use
 The library works primarily by generating 2D char arrays to use as dungeons.
 
 ### In Java
-You can use a slightly-augmented version of this dungeon generator via [Cuttlebone](http://search.maven.org/#artifactdetails%7Ccom.github.tommyettinger%7Ccuttlebone%7C1.96.0%7Cjar), which is on Maven Central and can be fetched with Maven, Gradle, Scala's SBT, Clojure's Leiningen, or similar tools using the instructions on that page.  Cuttlebone also features Field of View code from Eben Howard's fantastic library [SquidLib](https://github.com/SquidPony/SquidLib), but with the graphical display code removed to maximize portability. Cuttlebone's one dependency is Google GSON, a JSON parser lib.
+You can use a slightly-augmented version of this dungeon generator via [Cuttlebone](https://github.com/tommyettinger/cuttlebone), which is on [Maven Central](http://search.maven.org/#artifactdetails%7Ccom.github.tommyettinger%7Ccuttlebone%7C1.96.0%7Cjar) and can be fetched with Maven, Gradle, Scala's SBT, Clojure's Leiningen, or similar tools using the instructions on that page.  Cuttlebone also features Field of View code from Eben Howard's fantastic library [SquidLib](https://github.com/SquidPony/SquidLib), but with the graphical display code removed to maximize portability. Cuttlebone's one dependency is Google GSON, a JSON parser lib.
 An example: 
 ```java
 import squid.squidgrid.map.styled.*;
@@ -17,12 +17,12 @@ public class Example
 {
     public static void main( String[] args )
     {
-        DungeonGen bg = new DungeonGen();
+        DungeonGen dg = new DungeonGen();
         for(TilesetType tt : TilesetType.values())
         {
-            bg.generate(tt, 80, 80);
-            bg.wallWrap();
-            System.out.println(bg + "\n");
+            dg.generate(tt, 80, 80);
+            dg.wallWrap();
+            System.out.println(dg + "\n");
         }
     }
 }
@@ -52,10 +52,10 @@ namespace MyStuff
     }
 }
 ```
-# License
+## License
 Released into the public domain with the Unlicense (see LICENSE file in this directory).
 
-# Sample output
+## Sample output
 Using the TilesetType `ROUND_ROOMS_DIAGONAL_CORRIDORS`:
 ```
 ################################################################################
