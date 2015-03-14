@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{430C614F-C6BA-40BE-B892-9A586B87CF4A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BoneGen</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Image Include="herringbone\template_caves_limit_connectivity.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_caves_tiny_corridors.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_corner_caves.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_horizontal_corridors_v1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_horizontal_corridors_v2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_horizontal_corridors_v3.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_limited_connectivity.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_limit_connectivity_fat.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_maze_2_wide.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_maze_plus_2_wide.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_open_areas.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_ref2_corner_caves.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_rooms_and_corridors.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_rooms_and_corridors_2_wide_diagonal_bias.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_rooms_limit_connectivity.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_round_rooms_diagonal_corridors.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_sean_dungeon.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_simple_caves_2_wide.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="herringbone\template_square_rooms_with_random_rects.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stb_herringbone_wang_tile.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_image_write.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -514,7 +514,6 @@ namespace BoneGen
                 }
                 //                Console.WriteLine();
             }
-            Console.Read();
         }
          */
     }

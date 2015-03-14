@@ -51,7 +51,7 @@ namespace BoneGen
         /// <returns></returns>
         public static T[,] Insert<T>(this T[,] mat, T[][] items, int coord1, int coord2)
         {
-            if (mat.Length == 0 || items.Length == 0 || items[0].Length == 0)
+            if (mat.Length == 0 || items.Length == 0)
                 return mat;
 
             for (int i = coord1, i1 = 0; i1 < items.Length; i++, i1++)
@@ -78,7 +78,7 @@ namespace BoneGen
         /// <returns></returns>
         public static char[,] Insert(this char[,] mat, string[] items, int coord1, int coord2)
         {
-            if (mat.Length == 0 || items.Length == 0 || items[0].Length == 0)
+            if (mat.Length == 0 || items.Length == 0)
                 return mat;
 
             for (int i = coord1, i1 = 0; i1 < items.Length; i++, i1++)
