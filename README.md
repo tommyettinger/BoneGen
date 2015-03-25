@@ -2,8 +2,8 @@
 Herringbone Wang Tile dungeon generators
 
 The original work done by Sean T. Barrett on [Herringbone Wang Tile dungeon generation](http://nothings.org/gamedev/herringbone/) produces some very high-quality dungeons, but the [C library](https://github.com/nothings/stb/blob/master/stb_herringbone_wang_tile.h) he graciously made available is hard to integrate into non-C/C++ applications.
-Here, I modified the STB source to output JSON instead of a bitmap, and used that JSON in a C# loader.
-The plan is to keep porting, using the JSON in similar ways in different languages.
+Here, I modified the STB source to output JSON instead of a bitmap, and used that JSON in a C# loader (then a Java loader).
+The plan is to keep porting, using the JSON in similar ways in different languages. A variant is used for Lua, which actually doesn't depend on any JSON library because I made another change to the STB source to generate Lua source code, and it's loaded easily by the Lua generator at runtime.
 
 ## How to Use
 The library works primarily by generating 2D char arrays to use as dungeons.
@@ -51,6 +51,14 @@ namespace MyStuff
         }
     }
 }
+```
+
+### In Lua
+The Lua library depends on the LuaJIT-supplied bit library, which can also be used on Lua 5.1 or 5.2 (it's [available here](http://bitop.luajit.org/), and you will need it if you aren't using LuaJIT).  The only other code you need is in the Lua/bonegen/ folder, including the entire styles subfolder.  It isn't organized into a module because I have no idea how Lua games would want it set up, and because I don't use Lua very much. Feel free to edit it or even submit a pull request if you organize it better!  I would really appreciate it!
+```lua
+-- load bonegen.lua somehow first.
+local donjon = wall_wrap(generate("default_dungeon", 60, 60, os.time()))
+show2d(donjon)
 ```
 ## License
 Released into the public domain with the Unlicense (see LICENSE file in this directory).
