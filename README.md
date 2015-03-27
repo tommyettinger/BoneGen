@@ -40,7 +40,7 @@ namespace MyStuff
         {
             int height = 80, width = 80;
             BoneGen bg = new BoneGen();
-            char[,] dungeon = WallWrap(bg.Generate(TilesetType.DEFAULT_DUNGEON, height, width));
+            char[,] dungeon = BoneGen.WallWrap(bg.Generate(TilesetType.DEFAULT_DUNGEON, height, width));
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
