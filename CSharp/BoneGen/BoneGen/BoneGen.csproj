@@ -32,49 +32,40 @@
     <DocumentationFile>bin\Release\BoneGen.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoneGen.cs" />
+    <Compile Include="Data\CornerCaves.cs" />
+    <Compile Include="Data\HorizontalCorridorsV1.cs" />
+    <Compile Include="Data\HorizontalCorridorsV2.cs" />
+    <Compile Include="Data\HorizontalCorridorsV3.cs" />
+    <Compile Include="Data\LimitConnectivityFat.cs" />
+    <Compile Include="Data\LimitedConnectivity.cs" />
+    <Compile Include="Data\Maze2Wide.cs" />
+    <Compile Include="Data\MazePlus2Wide.cs" />
+    <Compile Include="Data\OpenAreas.cs" />
+    <Compile Include="Data\Ref2CornerCaves.cs" />
+    <Compile Include="Data\RoomsAndCorridors.cs" />
+    <Compile Include="Data\RoomsAndCorridors2WideDiagonalBias.cs" />
+    <Compile Include="Data\RoomsLimitConnectivity.cs" />
+    <Compile Include="Data\RoundRoomsDiagonalCorridors.cs" />
+    <Compile Include="Data\SimpleCaves2Wide.cs" />
+    <Compile Include="Data\SquareRoomsWithRandomRects.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Data\CavesLimitConnectivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="herringbone\caves_limit_connectivity.js" />
-    <EmbeddedResource Include="herringbone\caves_tiny_corridors.js" />
-    <EmbeddedResource Include="herringbone\corner_caves.js" />
-    <EmbeddedResource Include="herringbone\default_dungeon.js" />
-    <EmbeddedResource Include="herringbone\horizontal_corridors_v1.js" />
-    <EmbeddedResource Include="herringbone\horizontal_corridors_v2.js" />
-    <EmbeddedResource Include="herringbone\horizontal_corridors_v3.js" />
-    <EmbeddedResource Include="herringbone\limited_connectivity.js" />
-    <EmbeddedResource Include="herringbone\limit_connectivity_fat.js" />
-    <EmbeddedResource Include="herringbone\maze_2_wide.js" />
-    <EmbeddedResource Include="herringbone\maze_plus_2_wide.js" />
-    <EmbeddedResource Include="herringbone\open_areas.js" />
-    <EmbeddedResource Include="herringbone\ref2_corner_caves.js" />
-    <EmbeddedResource Include="herringbone\rooms_and_corridors.js" />
-    <EmbeddedResource Include="herringbone\rooms_and_corridors_2_wide_diagonal_bias.js" />
-    <EmbeddedResource Include="herringbone\rooms_limit_connectivity.js" />
-    <EmbeddedResource Include="herringbone\round_rooms_diagonal_corridors.js" />
-    <EmbeddedResource Include="herringbone\simple_caves_2_wide.js" />
-    <EmbeddedResource Include="herringbone\square_rooms_with_random_rects.js" />
+    <Compile Include="Data\CavesTinyCorridors.cs" />
+    <Compile Include="Data\DefaultDungeon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
